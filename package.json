@@ -8,7 +8,9 @@
   "main": "app.ts",
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch --env-file .env src/app.ts"
+    "dev": "tsx watch --env-file .env src/app.ts",
+    "migrate": "prisma migrate dev --schema=src/models/schema.prisma",
+    "generate": "prisma generate --schema=src/models/schema.prisma"
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
