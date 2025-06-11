@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
-import { MariaDBAppDataSource, SQLiteAppDataSource } from "./data-sources";
+import { MariaDBAppDataSource } from "./data-source-mariadb";
+import { SQLiteAppDataSource } from "./data-source-sqlite";
 
 export async function initializeDB(db: string) {
     const dataSource: Record<string, DataSource> = {"sqlite": SQLiteAppDataSource, "mariadb": MariaDBAppDataSource};
