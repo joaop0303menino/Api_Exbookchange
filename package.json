@@ -15,6 +15,7 @@
     "migrate-mariadb:run": "typeorm-ts-node-esm -d ./src/models/data-source-mariadb.ts migration:run"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.2",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.15.21",
