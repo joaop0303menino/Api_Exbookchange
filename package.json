@@ -9,8 +9,10 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsx --watch src/app.ts",
-    "migrate:generate": "typeorm-ts-node-esm -d ./src/models/data-source.ts migration:generate ./src/models/migrations/default",
-    "migrate:run": "typeorm-ts-node-esm -d ./src/models/data-source.ts migration:run"
+    "migrate-sqlite:generate": "typeorm-ts-node-esm -d ./src/models/data-source-sqlite.ts migration:generate ./src/models/migrations/sqlite/default",
+    "migrate-mariadb:generate": "typeorm-ts-node-esm -d ./src/models/data-source-mariadb.ts migration:generate ./src/models/migrations/mariadb/default",
+    "migrate-sqlite:run": "typeorm-ts-node-esm -d ./src/models/data-source-sqlite.ts migration:run",
+    "migrate-mariadb:run": "typeorm-ts-node-esm -d ./src/models/data-source-mariadb.ts migration:run"
   },
   "devDependencies": {
     "@types/express": "^5.0.2",
