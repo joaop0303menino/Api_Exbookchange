@@ -13,7 +13,7 @@ export const SQLiteAppDataSource = new DataSource({
     synchronize: false,
     logging: true,
     entities: [__dirname + "**/entities/*.{ts,js}"],
-    migrations: [__dirname + "**/migrations/*.{ts,js}"],
+    migrations: [__dirname + "**/migrations/sqlite/*.{ts,js}"],
     subscribers: [],
 });
 
@@ -27,6 +27,6 @@ export const MariaDBAppDataSource = new DataSource({
   synchronize: true,
   logging: true,
   entities: [__dirname + "**/entities/*.{ts,js}"],
-  migrations: [__dirname + "**/migrations/*.{ts,js}"],
+  migrations: [__dirname + "**/migrations/mariadb/*.{ts,js}"],
   subscribers: [],
 });

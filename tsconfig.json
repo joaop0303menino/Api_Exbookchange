@@ -3,6 +3,9 @@
     "target": "es2020",
     "module": "ESNext",
     "moduleResolution": "node",
+    "experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
     "lib": ["es2020"],
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -16,9 +19,7 @@
     "rootDir": "./src",
     "sourceMap": true,
     "removeComments": true,
-    "noEmitOnError": true,
-    "experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
+    "noEmitOnError": true
   },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
