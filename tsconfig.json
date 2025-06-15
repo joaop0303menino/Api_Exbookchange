@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "noImplicitAny": true,
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "sourceMap": true,
     "removeComments": true,
     "noEmitOnError": true
