@@ -8,3 +8,15 @@ export default class APIErrorsHandler extends Error {
         this.details = details;
     };
 };
+
+export class ConflictError extends APIErrorsHandler {
+    constructor(message: string, details?: string | [] | object) {
+        super(message, 409, details);
+    };
+};
+
+export class NotFoundError extends APIErrorsHandler {
+    constructor(message: string, details?: string | [] | object) {
+        super(message, 404, details);
+    };
+};
