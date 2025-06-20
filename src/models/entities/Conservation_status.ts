@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Announce } from "./Announce.ts";
 
 export enum ConservacaoStatusEnum {
   PESSIMO = 1,
@@ -8,18 +9,21 @@ export enum ConservacaoStatusEnum {
   OTIMO = 5
 }
 
-@Entity("Conservacao_Status")
-export class ConservacaoStatus {
-    @PrimaryGeneratedColumn()
-    id: number;
+@Entity("conservation_status")
+export class ConservationStatus {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({
-        type: "int",
-        enum: ConservacaoStatusEnum,
-        default: ConservacaoStatusEnum.OTIMO
-    })
-    status: ConservacaoStatusEnum;
+  @Column({
+    type: "int",
+    enum: ConservacaoStatusEnum,
+    default: ConservacaoStatusEnum.OTIMO
+  })
+  status: number;
 
-    @Column({type: "text"})
-    description_status: string;
+  @Column({ type: "text" })
+  description_status: string;
+
+  @OneToMany(() => Announce, announce => announce.conservationStatus)
+  announces: Announce[];
 }
