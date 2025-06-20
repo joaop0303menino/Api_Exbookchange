@@ -1,11 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import type { Profile } from "./Profile.ts";
+import { Profile as ProfileEntity } from "./Profile.ts";
 
-@Entity("Review")
+@Entity("review")
 export class Review {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({type: "int"})
-    ratting: number;
+  @ManyToOne(() => ProfileEntity) 
+  @JoinColumn({ name: "id_profile" })
+  profile: Profile;
 
-}; 
+  @Column({ type: "int" })
+  rating: number;
+}
