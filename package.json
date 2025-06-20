@@ -6,9 +6,13 @@
   "author": "",
   "type": "module",
   "main": "app.ts",
+  "ts-node": {
+  "esm": true,
+  "experimentalSpecifierResolution": "node"
+  },
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test": "node --experimental-vm-modules --no-warnings ./node_modules/jest/bin/jest.js",
     "dev": "tsx --watch src/app.ts",
     "migrate-sqlite:generate": "typeorm-ts-node-esm -d ./src/models/data-source-sqlite.ts migration:generate ./src/models/migrations/sqlite/default",
     "migrate-mariadb:generate": "typeorm-ts-node-esm -d ./src/models/data-source-mariadb.ts migration:generate ./src/models/migrations/mariadb/default",
@@ -21,7 +25,7 @@
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^22.15.21",
-    "jest": "^30.0.0",
+    "jest": "^29.7.0",
     "ts-jest": "^29.4.0",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"

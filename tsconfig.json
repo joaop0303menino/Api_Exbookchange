@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "es2020",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "experimentalDecorators": true,
 		"emitDecoratorMetadata": true,
     "strictPropertyInitialization": false,
@@ -19,7 +19,7 @@
     "rootDir": "./",
     "sourceMap": true,
     "removeComments": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
   },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
