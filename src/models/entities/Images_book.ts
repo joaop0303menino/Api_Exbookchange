@@ -1,13 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import type { Announce } from "./Announce.ts";
+import { Announce as AnnounceEntity } from "./Announce.ts";
 
-@Entity("Images_book")
+@Entity("images_book")
 export class ImagesBook {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({type: "blob"})
-    image: Buffer;
-    
-    @Column({type: "boolean"})
-    isCover: boolean;
-};
+  @ManyToOne(() => AnnounceEntity)
+  @JoinColumn({ name: "id_announce" })
+  announce: Announce;
+
+  @Column({ type: "blob" })
+  image: Buffer;
+
+  @Column({ type: "boolean" })
+  isCover: boolean;
+}
