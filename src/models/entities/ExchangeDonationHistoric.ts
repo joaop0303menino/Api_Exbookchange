@@ -1,10 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import type { ExchangeDonation } from "./ExchangeDonation.ts";
+import { ExchangeDonation as ExchangeDonationEntity } from "./ExchangeDonation.ts";
 
-@Entity("ExchangeDonationHistoric")
+@Entity("exchange_donation_historic")
 export class ExchangeDonationHistoric {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({type: "timestamp"})
-    date_transation: Timestamp;
-};
+  @ManyToOne(() => ExchangeDonationEntity)
+  @JoinColumn({ name: "id_exchange_donation" })
+  exchangeDonation: ExchangeDonation;
+
+  @Column({ type: "datetime" })
+  date_transaction: Date;
+}
