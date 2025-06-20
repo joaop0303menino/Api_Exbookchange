@@ -1,11 +1,9 @@
 import "dotenv/config";
 import "reflect-metadata";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 import { DataSource } from "typeorm";
+import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const baseDir = `${path.resolve()}/src/models/`;
 
 export const MariaDBAppDataSource = new DataSource({
   type: "mariadb",
@@ -16,7 +14,7 @@ export const MariaDBAppDataSource = new DataSource({
   password: process.env.DB_PASSWORD,
   synchronize: true,
   logging: true,
-  entities: [__dirname + "**/entities/*.{ts,js}"],
-  migrations: [__dirname + "**/migrations/mariadb/*.{ts,js}"],
+  entities: [baseDir + "**/entities/*.{ts,js}"],
+  migrations: [baseDir + "**/migrations/mariadb/*.{ts,js}"],
   subscribers: [],
 });

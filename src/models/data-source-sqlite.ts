@@ -1,19 +1,17 @@
 import "dotenv/config";
 import "reflect-metadata";
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
 import { DataSource } from "typeorm";
+import path from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const baseDir = `${path.resolve()}/src/models/`;
 
 export const SQLiteAppDataSource = new DataSource({
     type: "sqlite",
-    database: `${__dirname}/db.sqlite`,
+    database: `${baseDir}/db.sqlite`,
     synchronize: false,
     logging: true,
-    entities: [__dirname + "**/entities/*.{ts,js}"],
-    migrations: [__dirname + "**/migrations/sqlite/*.{ts,js}"],
+    entities: [baseDir + "**/entities/*.{ts,js}"],
+    migrations: [baseDir + "**/migrations/sqlite/*.{ts,js}"],
     subscribers: [],
 });
 
