@@ -1,10 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
+import type { User } from "./User.ts";
+import { User as UserEntity } from "./User.ts";
 
-@Entity("User_setting")
+@Entity("user_setting")
 export class UserSetting {
-    @PrimaryGeneratedColumn()
-    id: Number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({type: "boolean"})
-    receiveNotifications: boolean;
+  @OneToOne(() => UserEntity)
+  @JoinColumn({ name: "id_user" })
+  user: User;
+
+  @Column({ type: "boolean" })
+  receiveNotifications: boolean;
 }
