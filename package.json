@@ -6,6 +6,10 @@
   "author": "",
   "type": "module",
   "main": "app.ts",
+  "ts-node": {
+  "esm": true,
+  "experimentalSpecifierResolution": "node"
+},
   "scripts": {
     "build": "tsc",
     "dev": "tsx --watch src/app.ts",
