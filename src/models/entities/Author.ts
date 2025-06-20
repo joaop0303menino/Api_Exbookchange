@@ -1,10 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Announce } from "./Announce.ts";
 
 @Entity("author")
 export class Author {
-    @PrimaryGeneratedColumn()
-    id: Number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({type: "varchar"})
-    full_name: string;
+  @Column({ type: "varchar"})
+  full_name: string;
+
+  @OneToMany(() => Announce, announce => announce.author)
+  announces: Announce[];
 }
