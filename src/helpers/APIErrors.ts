@@ -20,3 +20,9 @@ export class NotFoundError extends APIErrorsHandler {
         super(message, 404, details);
     };
 };
+
+export class BadRequestError extends APIErrorsHandler {
+    constructor(message: string, details?: string | [] | object) {
+        super(message, 400, details);
+    };
+};
