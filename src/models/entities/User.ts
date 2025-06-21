@@ -11,7 +11,7 @@ export class User {
     @Column({type: "date"})
     date_birth: Date;
     
-    @Column({type: "varchar"})
+    @Column({type: "varchar", unique: true})
     email: string;
     
     @Column({type: "varchar"})
