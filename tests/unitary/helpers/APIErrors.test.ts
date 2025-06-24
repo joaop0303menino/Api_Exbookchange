@@ -1,4 +1,4 @@
-import APIErrorsHandler, { ConflictError, NotFoundError } from "../../../src/helpers/APIErrors";
+import APIErrorsHandler, { ConflictError, NotFoundError, UnauthorizedError } from "../../../src/helpers/APIErrors";
 
 describe("API errors tests", () => {
     test("Should create an API errors", () => {
@@ -24,5 +24,16 @@ describe("API errors tests", () => {
         expect(error.statusCode).toBe(404);
         expect(error).toBeInstanceOf(Error);
         expect(error.details).toHaveLength(0);
+    });
+
+    test("Should create an Unauthorized Error", () => {
+        const error = new UnauthorizedError("User not authorized", {error: "Invalid token"});
+
+        expect(error.message).toBe("User not authorized");
+        expect(error.statusCode).toBe(401);
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(APIErrorsHandler);
+        expect(error).toBeInstanceOf(UnauthorizedError);
+        expect(error.details).toBeDefined();
     });
 });
