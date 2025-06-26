@@ -6,8 +6,15 @@ describe("JWT tests", () => {
     test("Should return access token jwt string", async () => {
         const user = new User();
         user.id = 1;
-
-        const token = await TokenJWTService.generateAccessToken(user.id);
+        
+        if (user.phone === null || user.phone === undefined || user.phone === "") {
+            var userPhone = false;
+        } else {
+            var userPhone = true;
+        };
+        
+        const token = await TokenJWTService.generateAccessToken(user.id, userPhone);
+        console.log(token);
         
         expect(token).not.toBe(1);
         expect(typeof token).toBe("string");
@@ -16,8 +23,14 @@ describe("JWT tests", () => {
     test("Should verify access token", async () => {
         const user = new User();
         user.id = 1;
+
+        if (user.phone === null || user.phone === undefined || user.phone === "") {
+            var userPhone = false;
+        } else {
+            var userPhone = true;
+        };
         
-        const token = await TokenJWTService.generateAccessToken(user.id);
+        const token = await TokenJWTService.generateAccessToken(user.id, userPhone);
 
         const validate1 = await TokenJWTService.verifyToken(token)
         .then(decode => {return decode})
@@ -37,6 +50,7 @@ describe("JWT tests", () => {
         user.id = 1;
 
         const token = await TokenJWTService.generateRefreshToken(user.id);
+        console.log(token);
         
         expect(token).not.toBe(1);
         expect(typeof token).toBe("string");
@@ -58,6 +72,7 @@ describe("JWT tests", () => {
 
 
         expect(validate1).not.toBeInstanceOf(APIErrorsHandler);
+        expect(validate1).toHaveProperty("id")
         expect(validate2).toBeInstanceOf(APIErrorsHandler);
     });
 });

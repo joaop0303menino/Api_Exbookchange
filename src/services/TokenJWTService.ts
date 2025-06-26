@@ -13,7 +13,7 @@ export default class TokenJWTService {
     };
     
     static generateRefreshToken(userId: number): string {
-        return jwt.sign({id: userId}, TokenJWTService.secretKey, {expiresIn: "15d"});
+        return jwt.sign({id: userId, type: "refresh"}, TokenJWTService.secretKey, {expiresIn: "15d"});
     };
 
     static async verifyToken(token: string): Promise<Jwt | JwtPayload | string> {
