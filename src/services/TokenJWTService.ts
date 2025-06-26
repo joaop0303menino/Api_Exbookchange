@@ -6,8 +6,8 @@ import { JWTClaims } from "../dtos/JWTClaims";
 export default class TokenJWTService {
     static secretKey = process.env.SECRET_KEY!
     
-    static generateAccessToken(userId: number): string {
-        const claims = new JWTClaims(userId, 20);
+    static generateAccessToken(userId: number, userPhone: boolean): string {
+        const claims = new JWTClaims(userId, userPhone, 20);
         
         return jwt.sign(claims.toPayload(), TokenJWTService.secretKey);
     };
