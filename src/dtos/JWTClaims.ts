@@ -44,6 +44,7 @@ export class JWTClaims {
     toPayload() {
         return {
             userPermissions: this.userPermissions,
+            type: "access",
             iss: this.iss,
             sub: this.sub,
             aud: this.aud,
