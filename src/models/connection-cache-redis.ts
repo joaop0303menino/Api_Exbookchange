@@ -2,7 +2,7 @@ import { createClient, RedisClientType } from "redis";
 import APIErrorsHandler from "../helpers/APIErrors";
 
 export class ConnectionCacheRedis {
-    private client: RedisClientType;
+    client: RedisClientType;
 
     constructor() {
         this.client = createClient({url: process.env.URL_REDIS_CACHE, password: process.env.REDIS_PASSWORD});
