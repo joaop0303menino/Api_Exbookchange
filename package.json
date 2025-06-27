@@ -12,7 +12,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "docker:create-container": "docker run -d --name redis-cache -p 6379:6379 redis redis-server --requirepass $REDIS_PASSWORD",
+    "docker:create-container": "docker compose up -d",
     "docker:start": "docker start redis-cache",
     "docker:stop": "docker stop redis-cache",
     "test": "node --experimental-vm-modules --no-warnings ./node_modules/jest/bin/jest.js",
