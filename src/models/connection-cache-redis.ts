@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { createClient, RedisClientType } from "redis";
 import APIErrorsHandler from "../helpers/APIErrors";
 
@@ -5,7 +6,7 @@ export class ConnectionCacheRedis {
     client: RedisClientType;
 
     constructor() {
-        this.client = createClient({url: process.env.URL_REDIS_CACHE, password: process.env.REDIS_PASSWORD});
+        this.client = createClient({url: process.env.URL_REDIS_CACHE!});
     };
 
     async connect(): Promise<RedisClientType> {
