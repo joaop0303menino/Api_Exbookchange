@@ -9,11 +9,11 @@ export default class TokenJWTService {
     static generateAccessToken(userId: number, userPhone: boolean): string {
         const claims = new JWTClaims(userId, userPhone, 20);
         
-        return jwt.sign(claims.toPayload(), TokenJWTService.secretKey);
+        return jwt.sign(claims.toPayload(), TokenJWTService.secretKey, {expiresIn: "1h"});
     };
     
     static generateRefreshToken(userId: number): string {
-        return jwt.sign({id: userId, type: "refresh"}, TokenJWTService.secretKey, {expiresIn: "15d"});
+        return jwt.sign({id: userId, type: "refresh"}, TokenJWTService.secretKey, {expiresIn: "7d"});
     };
 
     static async verifyToken(token: string): Promise<Jwt | JwtPayload | string> {
