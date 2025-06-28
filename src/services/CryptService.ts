@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 
-export default class Crypt {
+export default class CryptService {
     private static readonly salt: number = 10;
 
     static async encrypt(text: string): Promise<string> {
-        return await bcrypt.hash(text, Crypt.salt)
+        return await bcrypt.hash(text, CryptService.salt)
     };
 
 

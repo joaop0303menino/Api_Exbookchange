@@ -3,61 +3,66 @@ import { SQLiteAppDataSource } from "../../../src/models/data-source-sqlite";
 import { User } from "../../../src/models/entities/User";
 import { AuthService } from "../../../src/services/AuthService";
 import { CacheService } from "../../../src/services/CacheService";
-import Crypt from "../../../src/services/Crypt";
+import CryptService from "../../../src/services/CryptService";
 import UserService from "../../../src/services/UserService";
 
 describe("AuthService tests", () => {
-    let userService: UserService;
-    let authService: AuthService;
-    let cacheService: CacheService;
-    let accessTokenToTests: string; 
-    let refreshTokenToTests: string; 
+  let userService: UserService;
+  let authService: AuthService;
+  let cacheService: CacheService;
+  let accessTokenToTests: string;
+  let refreshTokenToTests: string;
 
-    beforeAll(async () => {
-        await SQLiteAppDataSource.initialize();
-        userService = new UserService();
-        authService = new AuthService();
-        cacheService = new CacheService();
-    });
+  beforeAll(async () => {
+    await SQLiteAppDataSource.initialize();
+    userService = new UserService();
+    authService = new AuthService();
+    cacheService = new CacheService();
+  });
 
-    test("Should login user and return access token and refresh token hash", async () => {
-        const user = new User();
+  test("Should login user and return access token and refresh token hash", async () => {
+    const user = new User();
 
-        const password = "123456";
+    const password = "123456";
 
-        const passwordHash = await Crypt.encrypt(password)
+    const passwordHash = await CryptService.encrypt(password);
 
-        user.full_name = "Jhon Doe";
-        user.date_birth = new Date("1990/01/01");
-        user.email = "test9@test.com";
-        user.password = passwordHash;
-        user.phone = "1234567890";
-        
-        const newUser = await userService.createUser(user);
+    user.full_name = "Jhon Doe";
+    user.date_birth = new Date("1990/01/01");
+    user.email = "test9@test.com";
+    user.password = passwordHash;
+    user.phone = "1234567890";
 
-        if (!newUser) {
-            throw new APIErrorsHandler("User creation failed", 500, newUser);
-        };
+    const newUser = await userService.createUser(user);
 
-        const {accessToken, refreshTokenHash} = await authService.login(user.email, password);
+    if (!newUser) {
+      throw new APIErrorsHandler("User creation failed", 500, newUser);
+    }
 
-        expect(accessToken).toBeDefined();
-        expect(refreshTokenHash).toBeDefined();
+    const { accessToken, refreshTokenHash } = await authService.login(
+      user.email,
+      password
+    );
 
-        accessTokenToTests = accessToken;
-        refreshTokenToTests = refreshTokenHash;
-    });
+    expect(accessToken).toBeDefined();
+    expect(refreshTokenHash).toBeDefined();
 
-    test("Should validate user with access token", async () => {
-        const validate = await authService.accessToken(accessTokenToTests);
+    accessTokenToTests = accessToken;
+    refreshTokenToTests = refreshTokenHash;
+  });
 
-        expect(validate).toBeTruthy();
-    });
+  test("Should validate user with access token", async () => {
+    const validate = await authService.accessToken(accessTokenToTests);
 
-    test("Should login user with refresh token, should return new access and refresh token hashes", async () => {
-        const {accessToken, refreshTokenHash} = await authService.refreshToken(refreshTokenToTests);
+    expect(validate).toBeTruthy();
+  });
 
-        expect(accessToken).toBeDefined();
-        expect(refreshTokenHash).toBeDefined();
-    });
+  test("Should login user with refresh token, should return new access and refresh token hashes", async () => {
+    const { accessToken, refreshTokenHash } = await authService.refreshToken(
+      refreshTokenToTests
+    );
+
+    expect(accessToken).toBeDefined();
+    expect(refreshTokenHash).toBeDefined();
+  });
 });

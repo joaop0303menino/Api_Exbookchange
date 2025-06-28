@@ -1,62 +1,66 @@
 import { CacheService } from "../../../src/services/CacheService";
-import Crypt from "../../../src/services/Crypt";
+import CryptService from "../../../src/services/CryptService";
 import TokenJWTService from "../../../src/services/TokenJWTService";
 
 describe("CacheService tests", () => {
-    let cacheService: CacheService;
+  let cacheService: CacheService;
 
-    beforeAll(() => {
-        cacheService = new CacheService();
-    });
+  beforeAll(() => {
+    cacheService = new CacheService();
+  });
 
-    test("Should set cache with object", async () => {
-        const userId = 2;
-        const refreshToken = TokenJWTService.generateRefreshToken(userId);
-        const refreshTokenHash = await Crypt.encrypt(refreshToken);
-        
-        const expirationTime = 60 * 60 * 24 * 7;
+  test("Should set cache with object", async () => {
+    const userId = 2;
+    const refreshToken = TokenJWTService.generateRefreshToken(userId);
+    const refreshTokenHash = await CryptService.encrypt(refreshToken);
 
-        const redisValues = {
-            userId: userId.toString(),
-            refreshTokenHash: refreshTokenHash,
-            expirationTime: expirationTime.toString()
-        };
+    const expirationTime = 60 * 60 * 24 * 7;
 
-        const response = await cacheService.hSetCache(userId.toString(), redisValues, expirationTime);
-        console.log({response});
+    const redisValues = {
+      userId: userId.toString(),
+      refreshTokenHash: refreshTokenHash,
+      expirationTime: expirationTime.toString(),
+    };
 
-        expect(response).toBe(true);
-    });
+    const response = await cacheService.hSetCache(
+      userId.toString(),
+      redisValues,
+      expirationTime
+    );
+    console.log({ response });
 
-    test("Should set cache with string", async () => {
-        const response = await cacheService.setCache("testKey", "testValue", 20);
+    expect(response).toBe(true);
+  });
 
-        expect(response).toBe(true);
-    });
+  test("Should set cache with string", async () => {
+    const response = await cacheService.setCache("testKey", "testValue", 20);
 
-    test("Should get cache with string", async () => {
-        const responseGet = await cacheService.getCache("testKey");
+    expect(response).toBe(true);
+  });
 
-        expect(responseGet).toBe("testValue");
-    });
+  test("Should get cache with string", async () => {
+    const responseGet = await cacheService.getCache("testKey");
 
-    test("Should get cache with object", async () => {
-        const userId = 1;
+    expect(responseGet).toBe("testValue");
+  });
 
-        const response = await cacheService.hGetAllCache(userId.toString());
+  test("Should get cache with object", async () => {
+    const userId = 1;
 
-        expect(response).toBeDefined();
-        expect(response.userId).toBeDefined();
-        expect(response.refreshTokenHash).toBeDefined();
-        expect(response.expirationTime).toBeDefined();
-    });
+    const response = await cacheService.hGetAllCache(userId.toString());
 
-    test("Should deletar one register in the cache", async () => {
-        const userId = 1;
+    expect(response).toBeDefined();
+    expect(response.userId).toBeDefined();
+    expect(response.refreshTokenHash).toBeDefined();
+    expect(response.expirationTime).toBeDefined();
+  });
 
-        const response = await cacheService.deleteByKeyCache(userId.toString());
-        console.log({response});
+  test("Should deletar one register in the cache", async () => {
+    const userId = 1;
 
-        expect(response).not.toBe(0)
-    });
+    const response = await cacheService.deleteByKeyCache(userId.toString());
+    console.log({ response });
+
+    expect(response).not.toBe(0);
+  });
 });
