@@ -1,6 +1,6 @@
 import "dotenv/config";
 import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
-import APIErrorsHandler from "../helpers/APIErrors";
+import APIErrorsHandler, { UnauthorizedError } from "../helpers/APIErrors";
 import { JWTClaims } from "../dtos/JWTClaims";
 
 export default class TokenJWTService {
@@ -24,7 +24,7 @@ export default class TokenJWTService {
         return new Promise((resolve, reject) => {
             jwt.verify(token, TokenJWTService.secretKey, (err, decode) => {
                 if (err) {
-                    return reject(new APIErrorsHandler("Invalid token", 401, err));
+                    return reject(new UnauthorizedError("Invalid token", err));
                 };
 
                 return resolve(decode as JwtPayload);
