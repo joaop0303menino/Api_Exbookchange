@@ -26,3 +26,9 @@ export class BadRequestError extends APIErrorsHandler {
         super(message, 400, details);
     };
 };
+
+export class UnauthorizedError extends APIErrorsHandler {
+    constructor(message: string, details?: string | [] | object) {
+        super(message, 401, details);
+    };
+};
