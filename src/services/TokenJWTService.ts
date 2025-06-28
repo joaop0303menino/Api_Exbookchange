@@ -7,9 +7,9 @@ export default class TokenJWTService {
     static secretKey = process.env.SECRET_KEY!
     
     static generateAccessToken(userId: number, userPhone: boolean): string {
-        const claims = new JWTClaims(userId, userPhone, 20);
+        const claims = new JWTClaims(userId, userPhone, 60*60);
         
-        return jwt.sign(claims.toPayload(), TokenJWTService.secretKey, {expiresIn: "1h"});
+        return jwt.sign(claims.toPayload(), TokenJWTService.secretKey);
     };
     
     static generateRefreshToken(userId: number): string {
