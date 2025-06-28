@@ -71,4 +71,14 @@ export class CacheService {
         
         return response;
     };
+    
+    async deleteByKeyCache(key: string) {
+        await this.cacheRedis.connect();
+
+        const response = await this.cacheRedis.client.del(key);
+        
+        await this.cacheRedis.disconnect();
+        
+        return response;
+    };
 };
