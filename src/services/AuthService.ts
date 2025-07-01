@@ -12,7 +12,7 @@ export class AuthService {
   private readonly userService = new UserService();
   private readonly cacheService = new CacheService();
 
-  async login(
+  async signIn(
     email: string,
     password: string
   ): Promise<{ accessToken: string; refreshTokenHash: string }> {
@@ -78,18 +78,14 @@ export class AuthService {
     }
 
     return { accessToken, refreshTokenHash };
-  }
+  };
 
   async accessToken(accessToken: string): Promise<Boolean> {
-    if (!accessToken) {
-      throw new BadRequestError("Access token is required");
-    }
-
     const validateAccessToken = await TokenJWTService.verifyToken(accessToken);
 
     if (!validateAccessToken) {
       throw new UnauthorizedError("Invalid access token");
-    }
+    };
 
     return true;
   }
@@ -142,5 +138,5 @@ export class AuthService {
     }
 
     return { accessToken, refreshTokenHash };
-  }
-}
+  };
+};
