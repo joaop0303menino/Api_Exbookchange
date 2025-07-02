@@ -39,7 +39,7 @@ describe("AuthService tests", () => {
       throw new APIErrorsHandler("User creation failed", 500, newUser);
     }
 
-    const { accessToken, refreshTokenHash } = await authService.login(
+    const { accessToken, refreshTokenHash } = await authService.signIn(
       user.email,
       password
     );
