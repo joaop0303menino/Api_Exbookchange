@@ -1,5 +1,5 @@
 import "dotenv/config";
-import jwt, { Jwt, JwtPayload } from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import APIErrorsHandler, { UnauthorizedError } from "../helpers/APIErrors";
 import { JWTClaims } from "../dtos/JWTClaims";
 
@@ -16,7 +16,7 @@ export default class TokenJWTService {
         return jwt.sign({id: userId, type: "refresh"}, TokenJWTService.secretKey, {expiresIn: "7d"});
     };
 
-    static async verifyToken(token: string): Promise<Jwt | JwtPayload | string> {
+    static async verifyToken(token: string): Promise<JwtPayload> {
         if (!token.includes(".") || token.split(".").length !== 3) {
             throw new APIErrorsHandler("Token jwt malformated", 400, token)
         };
