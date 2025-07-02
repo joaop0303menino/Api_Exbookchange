@@ -32,3 +32,9 @@ export class UnauthorizedError extends APIErrorsHandler {
         super(message, 401, details);
     };
 };
+
+export class InternalServerError extends APIErrorsHandler {
+    constructor(message: string, details?: string | [] | object) {
+        super(message, 500, details);
+    };
+};

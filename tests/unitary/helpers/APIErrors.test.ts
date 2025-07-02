@@ -1,4 +1,4 @@
-import APIErrorsHandler, { ConflictError, NotFoundError, UnauthorizedError } from "../../../src/helpers/APIErrors";
+import APIErrorsHandler, { ConflictError, InternalServerError, NotFoundError, UnauthorizedError } from "../../../src/helpers/APIErrors";
 
 describe("API errors tests", () => {
     test("Should create an API errors", () => {
@@ -35,5 +35,16 @@ describe("API errors tests", () => {
         expect(error).toBeInstanceOf(APIErrorsHandler);
         expect(error).toBeInstanceOf(UnauthorizedError);
         expect(error.details).toBeDefined();
+    });
+
+    test("Should create an Internal Server Error", () => {
+        const error = new InternalServerError("Generate token error");
+
+        expect(error.message).toBe("User not authorized");
+        expect(error.statusCode).toBe(500);
+        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(APIErrorsHandler);
+        expect(error).toBeInstanceOf(UnauthorizedError);
+        expect(error.details).toBeUndefined();
     });
 });
