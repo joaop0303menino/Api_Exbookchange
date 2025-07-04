@@ -3,7 +3,7 @@ import { BadRequestError, InternalServerError, UnauthorizedError } from "../help
 import { AuthService } from "../services/AuthService";
 import { Request, Response, NextFunction } from "express";
 import { CacheService } from "../services/CacheService";
-import CryptService from "../services/CryptService";
+import { CryptService } from "../services/CryptService";
 
 export default class AuthMiddleware {
     private readonly authService: AuthService;

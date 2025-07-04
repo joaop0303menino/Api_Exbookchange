@@ -1,4 +1,4 @@
-import CryptService from "../../../src/services/CryptService";
+import { CryptService } from "../../../src/services/CryptService";
 
 describe("Encrypt test", () => {
   test("should return an encrypted string", async () => {
