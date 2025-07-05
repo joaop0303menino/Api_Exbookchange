@@ -1,7 +1,4 @@
 import { jest } from '@jest/globals';
-import { Request, Response, NextFunction } from "express";
-import AuthMiddleware from "../../../src/middlewares/AuthMiddleware";
-import { BadRequestError, UnauthorizedError } from '../../../src/helpers/APIErrors';
 
 jest.mock("../../../src/services/AuthService", () => {
     return {
@@ -10,6 +7,18 @@ jest.mock("../../../src/services/AuthService", () => {
         }))
     };
 });
+
+jest.mock("../../../src/services/CacheService", () => {
+    return {
+        CacheService: jest.fn().mockImplementation(() => ({
+            hGetAllCache: jest.fn()
+        }))
+    };
+});
+
+import { Request, Response, NextFunction } from "express";
+import AuthMiddleware from "../../../src/middlewares/AuthMiddleware";
+import { BadRequestError, InternalServerError, UnauthorizedError } from '../../../src/helpers/APIErrors';
 
 describe("AuthMiddleware tests", () => {
     let req: Partial<Request>;
@@ -23,14 +32,17 @@ describe("AuthMiddleware tests", () => {
         next = jest.fn();
         authMiddleware = new AuthMiddleware();
     });
-
+    
     afterEach(() => {
         jest.clearAllMocks();
     });
-
+    
     test("Should call next middleware if user is authenticated", async () => {
         const mockedAccessToken = authMiddleware["authService"].accessToken as jest.MockedFunction<typeof authMiddleware["authService"]["accessToken"]>;
         mockedAccessToken.mockResolvedValue(true);
+        
+        const mockedCacheService = authMiddleware["cacheService"].hGetAllCache as jest.MockedFunction<typeof authMiddleware["cacheService"]["hGetAllCache"]>;
+        mockedCacheService.mockResolvedValue({});
         
         req.headers!.authorization = "validToken";
         
@@ -63,6 +75,20 @@ describe("AuthMiddleware tests", () => {
         await expect(
             authMiddleware.authenticate(req as Request, res as Response, next as NextFunction)
         ).rejects.toBeInstanceOf(UnauthorizedError);
+
+        expect(next).not.toHaveBeenCalled();
+    });
+    
+    test("Should throw InternalServerError when access token is valid", async () => {
+        (authMiddleware["authService"].accessToken as jest.Mock).mockImplementation(() => {
+            throw new InternalServerError("Error encrypting access token");
+        });
+
+        req.headers!.authorization = "validToken";
+
+        await expect(
+            authMiddleware.authenticate(req as Request, res as Response, next as NextFunction)
+        ).rejects.toBeInstanceOf(InternalServerError);
 
         expect(next).not.toHaveBeenCalled();
     });

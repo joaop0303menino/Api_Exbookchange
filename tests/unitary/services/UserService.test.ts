@@ -1,7 +1,7 @@
 import APIErrorsHandler, { BadRequestError, NotFoundError } from "../../../src/helpers/APIErrors";
 import { SQLiteAppDataSource } from "../../../src/models/data-source-sqlite";
 import { User } from "../../../src/models/entities/User";
-import UserService from "../../../src/services/UserService";
+import { UserService } from "../../../src/services/UserService";
 
 describe("UserService tests", () => {
     let userService: UserService;

@@ -3,7 +3,7 @@ import { SQLiteAppDataSource } from "../models/data-source-sqlite";
 import { User } from "../models/entities/User";
 import { ConflictError } from "../helpers/APIErrors";
 
-export default class UserService {
+export class UserService {
     private readonly userRepository = SQLiteAppDataSource.getRepository(User);
 
     async createUser(userData: User): Promise<User> {

@@ -1,25 +1,28 @@
-import UserService from "../services/UserService";
+import { UserService } from "../services/UserService";
 import APIErrorsHandler, {
   BadRequestError,
+  InternalServerError,
   NotFoundError,
   UnauthorizedError,
 } from "../helpers/APIErrors";
-import CryptService from "./CryptService";
+import { CryptService } from "./CryptService";
 import TokenJWTService from "../services/TokenJWTService";
 import { CacheService } from "./CacheService";
+import { error } from "console";
+import { Jwt, JwtPayload } from "jsonwebtoken";
 
 export class AuthService {
   private readonly userService = new UserService();
   private readonly cacheService = new CacheService();
 
-  async login(
+  async signIn(
     email: string,
     password: string
   ): Promise<{ accessToken: string; refreshTokenHash: string }> {
     const user = await this.userService.getUserByEmail(email);
 
     if (!user) {
-      throw new NotFoundError("Invalid email or password");
+      throw new NotFoundError("Invalid email or password", {userError: user});
     }
 
     const passwordValidate = await CryptService.verifyEncrypt(password, user.password)
@@ -27,7 +30,7 @@ export class AuthService {
         return validate;
       })
       .catch((err) => {
-        throw new APIErrorsHandler(err.message, 500, err);
+        throw new InternalServerError(err.message, {error: err});
       });
 
     if (passwordValidate === false) {
@@ -47,17 +50,17 @@ export class AuthService {
     const refreshToken = await TokenJWTService.generateRefreshToken(user.id);
 
     if (!accessToken) {
-      throw new APIErrorsHandler("Generate access token error", 500);
+      throw new InternalServerError("Generate access token error", {accessTokenError: accessToken});
     }
 
     if (!refreshToken) {
-      throw new APIErrorsHandler("Generate refresh token error", 500);
+      throw new InternalServerError("Generate refresh token error", {refreshTokenError: refreshToken});
     }
 
     const refreshTokenHash = await CryptService.encrypt(refreshToken);
 
     if (!refreshTokenHash) {
-      throw new APIErrorsHandler("Refresh token encryption error", 500);
+      throw new InternalServerError("Refresh token encryption error", {refreshTokenHashError: refreshTokenHash});
     }
 
     const redisValues = {
@@ -74,22 +77,38 @@ export class AuthService {
     );
 
     if (!cacheSet) {
-      throw new APIErrorsHandler("Cache set error", 500);
+      throw new InternalServerError("Cache set error", {cacheSetError: cacheSet});
     }
 
     return { accessToken, refreshTokenHash };
-  }
+  };
+  
+  async signOut(accessToken: string, refreshTokenHash: string): Promise<Boolean> {
+    const decodeAccessToken = await TokenJWTService.verifyToken(accessToken);
+
+    const accessTokenHash = await CryptService.encrypt(accessToken);
+    
+    const InvalidedAccessToken = await this.cacheService.hSetCache(accessTokenHash, accessTokenHash, decodeAccessToken.iat);
+
+    if (Object.keys(InvalidedAccessToken).length < 0) {
+      throw new InternalServerError("Error to invalidate access token", {InvalidAccessTokenError: InvalidedAccessToken});
+    };
+
+    const deletedRefresh = this.cacheService.deleteByKeyCache(refreshTokenHash);
+
+    if (!deletedRefresh) {
+      throw new InternalServerError("Error to delete refresh token", {deletedRefreshError: deletedRefresh});
+    };
+
+    return true;
+  };
 
   async accessToken(accessToken: string): Promise<Boolean> {
-    if (!accessToken) {
-      throw new BadRequestError("Access token is required");
-    }
-
     const validateAccessToken = await TokenJWTService.verifyToken(accessToken);
 
     if (!validateAccessToken) {
       throw new UnauthorizedError("Invalid access token");
-    }
+    };
 
     return true;
   }
@@ -128,19 +147,19 @@ export class AuthService {
     );
 
     if (!accessToken) {
-      throw new APIErrorsHandler("Generate access token error", 500);
+      throw new InternalServerError("Generate access token error");
     }
 
     if (!newRefreshToken) {
-      throw new APIErrorsHandler("Generate refresh token error", 500);
+      throw new InternalServerError("Generate refresh token error");
     }
 
     const refreshTokenHash = await CryptService.encrypt(newRefreshToken);
 
     if (!refreshTokenHash) {
-      throw new APIErrorsHandler("Refresh token encryption error", 500);
+      throw new InternalServerError("Refresh token encryption error");
     }
 
     return { accessToken, refreshTokenHash };
-  }
-}
+  };
+};

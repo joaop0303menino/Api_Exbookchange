@@ -1,5 +1,5 @@
 import { CacheService } from "../../../src/services/CacheService";
-import CryptService from "../../../src/services/CryptService";
+import { CryptService } from "../../../src/services/CryptService";
 import TokenJWTService from "../../../src/services/TokenJWTService";
 
 describe("CacheService tests", () => {

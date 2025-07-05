@@ -3,8 +3,8 @@ import { SQLiteAppDataSource } from "../../../src/models/data-source-sqlite";
 import { User } from "../../../src/models/entities/User";
 import { AuthService } from "../../../src/services/AuthService";
 import { CacheService } from "../../../src/services/CacheService";
-import CryptService from "../../../src/services/CryptService";
-import UserService from "../../../src/services/UserService";
+import { CryptService } from "../../../src/services/CryptService";
+import { UserService } from "../../../src/services/UserService";
 
 describe("AuthService tests", () => {
   let userService: UserService;
@@ -39,7 +39,7 @@ describe("AuthService tests", () => {
       throw new APIErrorsHandler("User creation failed", 500, newUser);
     }
 
-    const { accessToken, refreshTokenHash } = await authService.login(
+    const { accessToken, refreshTokenHash } = await authService.signIn(
       user.email,
       password
     );
