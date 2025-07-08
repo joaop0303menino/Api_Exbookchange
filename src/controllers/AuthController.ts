@@ -28,7 +28,7 @@ export class AuthController {
         const { accessToken, refreshTokenHash } = await this.authService.signIn(email, password);
 
         const headers = APIHeaders.fullHeaders(accessToken, "http://localhost:3000");
-        const body = new APIBody("success", "Sign in held successfully", {refreshTokenHash});
+        const body = new APIBody("success", "Sign in held successfully", {grant_type: refreshTokenHash});
         
         return res.status(200).header(headers).json(body);
     };
@@ -108,7 +108,7 @@ export class AuthController {
         const { accessToken, refreshTokenHash } = await this.authService.refreshToken(grant_type.refreshTokenHash);
 
         const headers = APIHeaders.fullHeaders(accessToken, "http://localhost:3000");
-        const body = new APIBody("success", "Access token and new refresh token generated successfully", {refreshTokenHash});
+        const body = new APIBody("success", "Access token and new refresh token generated successfully", {grant_type: refreshTokenHash});
 
         return res.status(200).header(headers).json(body);
     };
