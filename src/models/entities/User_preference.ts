@@ -13,7 +13,7 @@ export class UserPreference {
   @JoinColumn({ name: "id_user"})
   user: User;
 
-  @ManyToOne( () => UserEntity)
+  @ManyToOne( () => AuthorEntity)
   @JoinColumn({ name: "id_author"})
   author: Author;
 
