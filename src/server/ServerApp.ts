@@ -1,9 +1,11 @@
 import express, { Application } from "express";
 import cors from "cors";
 import { errorMiddlewares } from "../middlewares/errorMiddleware";
+import { AUTH } from "sqlite3";
+import AuthRoutes from "./routes/AuthRoutes";
 
 export default class ServerApp {
-    private readonly app: Application;
+    public readonly app: Application;
     private readonly port: number;
     
     constructor() {
@@ -29,6 +31,7 @@ export default class ServerApp {
 
     private initRoutes() {
         this.app.get("/", (req, res) => {res.status(200).json({status: "sucess", mensage: "Server initialized with sucess", details: undefined})});
+        this.app.use("/api/v1", AuthRoutes);
     };
 
     public listen() {

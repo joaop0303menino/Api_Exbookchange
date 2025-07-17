@@ -88,7 +88,7 @@ export class AuthService {
 
     const accessTokenHash = await CryptService.encrypt(accessToken);
     
-    const InvalidedAccessToken = await this.cacheService.hSetCache(accessTokenHash, accessTokenHash, decodeAccessToken.iat);
+    const InvalidedAccessToken = await this.cacheService.hSetCache(accessTokenHash, {accessTokenHash}, decodeAccessToken.iat);
 
     if (Object.keys(InvalidedAccessToken).length < 0) {
       throw new InternalServerError("Error to invalidate access token", {InvalidAccessTokenError: InvalidedAccessToken});
