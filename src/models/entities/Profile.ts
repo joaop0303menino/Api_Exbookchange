@@ -2,6 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, JoinColumn
 import type { User } from "./User.ts";
 import { User as UserEntity } from "./User.ts";
 import { Review } from "./Review.ts";
+import { Notification } from "./Notification.ts";
+import { Complaint } from "./Complaint.ts";
 
 @Entity("profile")
 export class Profile {
@@ -23,4 +25,10 @@ export class Profile {
 
   @OneToMany(() => Review, () => Review)
   reviews: Review[];
+
+  @OneToMany(() => Notification, () => Notification)
+  Notifications: Notification[];
+
+  @OneToMany(() => Complaint, () => Complaint)
+  Complaints: Complaint[];
 }
