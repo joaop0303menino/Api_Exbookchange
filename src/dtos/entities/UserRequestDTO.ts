@@ -5,7 +5,7 @@ export interface SignUpUserRequestBodyDTO extends Partial<Omit<User, "id" | "dat
     date_birth: string;
     email: string;
     password: string;
-    phone?: string;
+    phone: string;
 };
 
 export interface SignInUserRequesBodytDTO extends User {

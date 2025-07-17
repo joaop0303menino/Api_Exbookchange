@@ -9,7 +9,7 @@ export const UserSchema = z.object({
     .regex(/^(?=.*[A-Z])(?=.*[a-z]).+$/, "Password must contain at least one uppercase and one lowercase letter")
     .regex(/(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/\-])/, "Password must contain at least one special character")
     .regex(/^(?=.*\d).+$/, "Password must contain at least one number"),
-    phone: z.string().optional(),
+    phone: z.string(),
     created_at: z.string().optional(),
     updated_at: z.string().optional(),
 });
