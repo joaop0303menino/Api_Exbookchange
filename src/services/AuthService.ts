@@ -1,5 +1,5 @@
 import { UserService } from "../services/UserService";
-import APIErrorsHandler, {
+import {
   BadRequestError,
   InternalServerError,
   NotFoundError,
@@ -8,8 +8,6 @@ import APIErrorsHandler, {
 import { CryptService } from "./CryptService";
 import TokenJWTService from "../services/TokenJWTService";
 import { CacheService } from "./CacheService";
-import { error } from "console";
-import { Jwt, JwtPayload } from "jsonwebtoken";
 
 export class AuthService {
   private readonly userService = new UserService();
@@ -23,7 +21,7 @@ export class AuthService {
 
     if (!user) {
       throw new NotFoundError("Invalid email or password", {userError: user});
-    }
+    };
 
     const passwordValidate = await CryptService.verifyEncrypt(password, user.password)
       .then((validate) => {
@@ -35,38 +33,28 @@ export class AuthService {
 
     if (passwordValidate === false) {
       throw new UnauthorizedError("Invalid email or password");
-    }
+    };
 
-    if (user.phone === null || user.phone === undefined || user.phone === "") {
-      var userPhone = false;
-    } else {
-      var userPhone = true;
-    }
-
-    const accessToken = await TokenJWTService.generateAccessToken(
-      user.id,
-      userPhone
-    );
+    const accessToken = await TokenJWTService.generateAccessToken(user.id);
     const refreshToken = await TokenJWTService.generateRefreshToken(user.id);
 
     if (!accessToken) {
       throw new InternalServerError("Generate access token error", {accessTokenError: accessToken});
-    }
+    };
 
     if (!refreshToken) {
       throw new InternalServerError("Generate refresh token error", {refreshTokenError: refreshToken});
-    }
+    };
 
     const refreshTokenHash = await CryptService.encrypt(refreshToken);
 
     if (!refreshTokenHash) {
       throw new InternalServerError("Refresh token encryption error", {refreshTokenHashError: refreshTokenHash});
-    }
+    };
 
     const redisValues = {
       userId: user.id.toString(),
       refreshTokenHash,
-      phoneExists: userPhone.toString(),
       expirationTime: (60 * 60 * 24 * 7).toString(),
     };
 
@@ -111,14 +99,14 @@ export class AuthService {
     };
 
     return true;
-  }
+  };
 
   async refreshToken(
     refreshToken: string
   ): Promise<{ accessToken: string; refreshTokenHash: string }> {
     if (!refreshToken) {
       throw new BadRequestError("Refresh token is required");
-    }
+    };
 
     const getRefresh = await this.cacheService.hGetAllCache(refreshToken);
 
@@ -126,7 +114,7 @@ export class AuthService {
       throw new UnauthorizedError("Invalid refresh token or expired", {
         getRefresh,
       });
-    }
+    };
 
     const deletedRefresh = await this.cacheService.deleteByKeyCache(
       getRefresh.refreshTokenHash
@@ -136,29 +124,25 @@ export class AuthService {
       throw new BadRequestError("Error deleting refresh token from cache", {
         deletedRefresh,
       });
-    }
+    };
 
-    const accessToken = await TokenJWTService.generateAccessToken(
-      parseInt(getRefresh.userId),
-      Boolean(getRefresh.phoneExists)
-    );
-    const newRefreshToken = await TokenJWTService.generateRefreshToken(
-      parseInt(getRefresh.userId)
-    );
+    const accessToken = await TokenJWTService.generateAccessToken(parseInt(getRefresh.userId));
+
+    const newRefreshToken = await TokenJWTService.generateRefreshToken(parseInt(getRefresh.userId));
 
     if (!accessToken) {
       throw new InternalServerError("Generate access token error");
-    }
+    };
 
     if (!newRefreshToken) {
       throw new InternalServerError("Generate refresh token error");
-    }
+    };
 
     const refreshTokenHash = await CryptService.encrypt(newRefreshToken);
 
     if (!refreshTokenHash) {
       throw new InternalServerError("Refresh token encryption error");
-    }
+    };
 
     return { accessToken, refreshTokenHash };
   };

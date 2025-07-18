@@ -2,7 +2,7 @@ import { JWTClaims } from "../../../src/dtos/JWTClaims";
 
 describe("JWTClaims tests", () => {
     test("Should return a valid payload", () => {
-        const jwtClaims = new JWTClaims(1, true, 20);
+        const jwtClaims = new JWTClaims(1, 20);
 
         const payload = jwtClaims.toPayload();
 
