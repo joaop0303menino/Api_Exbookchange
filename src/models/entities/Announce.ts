@@ -1,12 +1,12 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, OneToOne, JoinColumn } from "typeorm";
-import type { User } from "./User.ts";
-import { User as UserEntity } from "./User.ts";
-import type { Author } from "./Author.ts";
-import { Author as AuthorEntity } from "./Author.ts";
-import type { ConservationStatus } from "./Conservation_status.ts";
-import { ConservationStatus as ConservationStatusEntity } from "./Conservation_status.ts";
-import { ImagesBook } from "./Images_book.ts";
-import { ExchangeDonation } from "./ExchangeDonation.ts";
+import type { User } from "./User";
+import { User as UserEntity } from "./User";
+import type { Author } from "./Author";
+import { Author as AuthorEntity } from "./Author";
+import type { ConservationStatus } from "./Conservation_status";
+import { ConservationStatus as ConservationStatusEntity } from "./Conservation_status";
+import { ImagesBook } from "./Images_book";
+import { ExchangeDonation } from "./ExchangeDonation";
 
 export enum ExchangeDonationStatusEnum {
   Exchange = 'Exchange',

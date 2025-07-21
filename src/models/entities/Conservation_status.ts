@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { Announce } from "./Announce.ts";
+import { Announce } from "./Announce";
 
 export enum ConservacaoStatusEnum {
   PESSIMO = 1,

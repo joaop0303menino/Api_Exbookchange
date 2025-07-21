@@ -1,11 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from "typeorm";
-import { Profile } from "./Profile.ts";
-import { UserSetting } from "./User_setting.ts";
-import { Announce } from "./Announce.ts";
-import { ExchangeDonation } from "./ExchangeDonation.ts";
-import { Notification } from "./Notification.ts";
-import { UserPreference } from "./User_preference.ts";
-import { Complaint } from "./Complaint.ts";
+import { Profile } from "./Profile";
+import { UserSetting } from "./User_setting";
+import { Announce } from "./Announce";
+import { ExchangeDonation } from "./ExchangeDonation";
+import { Notification } from "./Notification";
+import { UserPreference } from "./User_preference";
+import { Complaint } from "./Complaint";
 
 @Entity("user")
 export class User {

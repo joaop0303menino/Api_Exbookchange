@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn } from "typeorm";
-import type { ExchangeDonation } from "./ExchangeDonation.ts";
-import { ExchangeDonation as ExchangeDonationEntity } from "./ExchangeDonation.ts";
+import type { ExchangeDonation } from "./ExchangeDonation";
+import { ExchangeDonation as ExchangeDonationEntity } from "./ExchangeDonation";
 
 @Entity("exchange_donation_historic")
 export class ExchangeDonationHistoric {

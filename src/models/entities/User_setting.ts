@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from "typeorm";
-import type { User } from "./User.ts";
-import { User as UserEntity } from "./User.ts";
+import type { User } from "./User";
+import { User as UserEntity } from "./User";
 
 @Entity("user_setting")
 export class UserSetting {

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn} from "typeorm";
-import type { Complaint } from "./Complaint.ts";
-import { Complaint as ComplaintEntity} from "./Complaint.ts";
+import type { Complaint } from "./Complaint";
+import { Complaint as ComplaintEntity} from "./Complaint";
 
 @Entity("Type_complaint")
 export class TypeComplaint {

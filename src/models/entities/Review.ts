@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import type { Profile } from "./Profile.ts";
-import { Profile as ProfileEntity } from "./Profile.ts";
+import type { Profile } from "./Profile";
+import { Profile as ProfileEntity } from "./Profile";
 
 @Entity("review")
 export class Review {

@@ -1,10 +1,10 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, OneToOne} from "typeorm";
-import type { TypeNotification } from "./Type_notification.ts";
-import { TypeNotification as TypeNotificationEntity } from "./Type_notification.ts";
-import type { User } from "./User.ts";
-import { User as UserEntity } from "./User.ts";
-import type { Profile } from "./Profile.ts";
-import { Profile as ProfileEntity } from "./Profile.ts";
+import type { TypeNotification } from "./Type_notification";
+import { TypeNotification as TypeNotificationEntity } from "./Type_notification";
+import type { User } from "./User";
+import { User as UserEntity } from "./User";
+import type { Profile } from "./Profile";
+import { Profile as ProfileEntity } from "./Profile";
 
 @Entity("Notification")
 export class Notification {

@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne} from "typeorm";
-import { Notification  } from "./Notification.ts";
+import { Notification  } from "./Notification";
 
 @Entity("Type_notification")
 export class TypeNotification {

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-import { Announce } from "./Announce.ts";
-import { UserPreference } from "./User_preference.ts";
+import { Announce } from "./Announce";
+import { UserPreference } from "./User_preference";
 
 @Entity("author")
 export class Author {

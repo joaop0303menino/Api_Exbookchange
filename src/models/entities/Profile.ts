@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToOne, OneToMany, JoinColumn } from "typeorm";
-import type { User } from "./User.ts";
-import { User as UserEntity } from "./User.ts";
-import { Review } from "./Review.ts";
-import { Notification } from "./Notification.ts";
-import { Complaint } from "./Complaint.ts";
+import type { User } from "./User";
+import { User as UserEntity } from "./User";
+import { Review } from "./Review";
+import { Notification } from "./Notification";
+import { Complaint } from "./Complaint";
 
 @Entity("profile")
 export class Profile {

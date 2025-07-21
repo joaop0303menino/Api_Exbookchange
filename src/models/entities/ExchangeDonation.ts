@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToOne, OneToMany, JoinColumn} from "typeorm";
-import type { User } from "./User.ts";
-import { User as UserEntity } from "./User.ts";
-import type { Announce } from "./Announce.ts";
-import { Announce as AnnounceEntity } from "./Announce.ts";
-import { ExchangeDonationHistoric } from "./ExchangeDonationHistoric.ts";
+import type { User } from "./User";
+import { User as UserEntity } from "./User";
+import type { Announce } from "./Announce";
+import { Announce as AnnounceEntity } from "./Announce";
+import { ExchangeDonationHistoric } from "./ExchangeDonationHistoric";
 
 @Entity("exchange_donation")
 export class ExchangeDonation {

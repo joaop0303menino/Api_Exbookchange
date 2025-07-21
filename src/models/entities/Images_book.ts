@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
-import type { Announce } from "./Announce.ts";
-import { Announce as AnnounceEntity } from "./Announce.ts";
+import type { Announce } from "./Announce";
+import { Announce as AnnounceEntity } from "./Announce";
 
 @Entity("images_book")
 export class ImagesBook {

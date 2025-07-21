@@ -1,9 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, OneToMany, CreateDateColumn} from "typeorm";
-import { TypeComplaint } from "./Type_complaint.ts";
-import type { User } from "./User.ts";
-import { User as UserEntity } from "./User.ts";
-import type { Profile } from "./Profile.ts";
-import { Profile as ProfileEntity } from "./Profile.ts";
+import { TypeComplaint } from "./Type_complaint";
+import type { User } from "./User";
+import { User as UserEntity } from "./User";
+import type { Profile } from "./Profile";
+import { Profile as ProfileEntity } from "./Profile";
 
 @Entity("Complaint")
 export class Complaint {

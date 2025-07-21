@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from "typeorm";
-import type { Author } from "./Author.ts";
-import {Author as AuthorEntity} from "./Author.ts"
-import type { User } from "./User.ts";
-import {User as UserEntity} from "./User.ts"
+import type { Author } from "./Author";
+import {Author as AuthorEntity} from "./Author"
+import type { User } from "./User";
+import {User as UserEntity} from "./User"
 
 @Entity("User_preference")
 export class UserPreference {
