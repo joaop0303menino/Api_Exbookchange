@@ -3,6 +3,8 @@ import { Request, Response } from "express";
 import { AuthController } from "../../../src/controllers/AuthController";
 import { User } from "../../../src/models/entities/User";
 import { SignUpUserRequestBodyDTO } from "../../../src/dtos/entities/UserRequestDTO";
+import { Profile } from "../../../src/models/entities/Profile";
+import { UserSetting } from "../../../src/models/entities/User_setting";
 
 const mockGetUserByEmail = jest.fn();
 const mockCreateUser = jest.fn();
@@ -68,7 +70,7 @@ describe("AuthController tests", () => {
             date_birth: new Date("01/01/2001"),
             created_at: new Date(),
             updated_at: new Date(),
-            phone: undefined} as User);
+            phone: "40028922"} as User);
         const mockedSignIn = authController["authService"].signIn as jest.MockedFunction<typeof authController["authService"]["signIn"]>;
         mockedSignIn.mockResolvedValue({accessToken: "validToken", refreshTokenHash: "validHash"});
 
@@ -88,9 +90,11 @@ describe("AuthController tests", () => {
         
         expect(mockJson).toHaveBeenCalledWith(
             expect.objectContaining({
-                data: expect.objectContaining({
-                    refreshTokenHash: "validHash"
-                })
+                data: {
+                    grant_type: "validHash"
+                }, 
+                message: "Sign in held successfully", 
+                status: "success"
             })
         );
     }); 
@@ -101,9 +105,12 @@ describe("AuthController tests", () => {
             email: "john.doe@gmail.com",
             password: "Password_123",
             date_birth: "01/01/2001",
-            phone: undefined
+            phone: "1140028922"
         };
         
+        const newProfile = new Profile();
+        const newUserSetting = new UserSetting();
+
         const userResponse: User = {
             id: 1,
             full_name: user.full_name,
@@ -112,7 +119,16 @@ describe("AuthController tests", () => {
             date_birth: new Date("01/01/2001"),
             created_at: new Date(),
             updated_at: new Date(),
-            phone: user.phone
+            phone: user.phone,
+            trust_seal: 0,
+            blocked_user: 0,
+            profile: newProfile,
+            setting: newUserSetting,
+            announces: [],
+            exchangeDonations: [],
+            Notifications: [],
+            UserPreferences: [],
+            Complaints: []
         };
 
         const mockedCreateUser = authController["userService"].createUser as jest.MockedFunction<typeof authController["userService"]["createUser"]>;
@@ -135,7 +151,16 @@ describe("AuthController tests", () => {
                         date_birth: new Date("01/01/2001"),
                         created_at: expect.any(Date),
                         updated_at: expect.any(Date),
-                        phone: user.phone
+                        phone: user.phone,
+                        trust_seal: 0,
+                        blocked_user: 0,
+                        profile: newProfile,
+                        setting: newUserSetting,
+                        announces: [],
+                        exchangeDonations: [],
+                        Notifications: [],
+                        UserPreferences: [],
+                        Complaints: []
                     }
                 },
                 message: "Sign up held successfully",
@@ -175,8 +200,10 @@ describe("AuthController tests", () => {
         expect(mockJson).toHaveBeenCalledWith(
             expect.objectContaining({
                 data: {
-                    refreshTokenHash: "validHash"
-                }
+                    grant_type: "validHash"
+                }, 
+                message: "Access token and new refresh token generated successfully", 
+                status: "success"
             })
         );
         expect(mockHeader).toHaveBeenCalledWith(
