@@ -19,9 +19,7 @@
     "rootDir": "./",
     "sourceMap": true,
     "removeComments": true,
-    "noEmitOnError": true,
-    "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmitOnError": true
   },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
