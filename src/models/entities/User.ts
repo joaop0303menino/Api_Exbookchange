@@ -1,10 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  OneToMany,
+} from "typeorm";
 import { Profile } from "./Profile";
 import { UserSetting } from "./User_setting";
 import { Announce } from "./Announce";
 import { ExchangeDonation } from "./ExchangeDonation";
 import { Notification } from "./Notification";
-import { UserPreference } from "./User_preference";
+import { UserPreference } from "./UserPreference";
 import { Complaint } from "./Complaint";
 
 @Entity("user")
@@ -21,10 +29,10 @@ export class User {
   @Column({ type: "varchar", unique: true })
   email: string;
 
-  @Column({ type: "varchar"})
+  @Column({ type: "varchar" })
   password: string;
 
-  @Column({ type: "varchar"})
+  @Column({ type: "varchar" })
   phone: string;
 
   @CreateDateColumn()
@@ -33,36 +41,36 @@ export class User {
   @UpdateDateColumn()
   updated_at: Date;
 
-  @Column({ 
+  @Column({
     type: "tinyint",
-    default: 0 
+    default: 0,
   })
   trust_seal: number;
 
-  @Column({ 
+  @Column({
     type: "tinyint",
-    default: 0 
+    default: 0,
   })
   blocked_user: number;
 
-  @OneToOne(() => Profile, profile => profile.user)
+  @OneToOne(() => Profile, (profile) => profile.user)
   profile: Profile;
 
-  @OneToOne(() => UserSetting, setting => setting.user)
+  @OneToOne(() => UserSetting, (setting) => setting.user)
   setting: UserSetting;
 
-  @OneToMany(() => Announce, announce => announce.user)
+  @OneToMany(() => Announce, (announce) => announce.user)
   announces: Announce[];
 
-  @OneToMany(() => ExchangeDonation, ed => ed.user)
+  @OneToMany(() => ExchangeDonation, (ed) => ed.user)
   exchangeDonations: ExchangeDonation[];
 
-  @OneToMany(() => Notification, Notification => Notification.User)
+  @OneToMany(() => Notification, (Notification) => Notification.User)
   Notifications: Notification[];
 
-  @OneToMany(() => UserPreference, up => up.user)
+  @OneToMany(() => UserPreference, (up) => up.user)
   UserPreferences: UserPreference[];
 
-  @OneToMany(() => Complaint, Complaint => Complaint.user)
+  @OneToMany(() => Complaint, (Complaint) => Complaint.user)
   Complaints: Complaint[];
 }
